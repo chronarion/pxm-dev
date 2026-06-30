@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pxm — Reliable Software Installation for Linux</title>
+  <meta name="description" content="pxm treats each install prompt as a first-class package: versioned, tested, dependency-resolved, and locked. A coding agent does the install for you." />
+
+  <!-- Open Graph (so the parody looks real when shared) -->
+  <meta property="og:title" content="pxm — Reliable Software Installation for Linux" />
+  <meta property="og:description" content="Prompts are packages. Install them before you run them." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='monospace'>%3E</text></svg>" />
+</head>
+<body>
+  <!-- Top announcement bar -->
+  <div class="banner">
+    <span class="banner-dot"></span>
+    <strong>pxm 1.0</strong> is now generally available.
+    <a href="#availability">Read the announcement &rarr;</a>
+  </div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">&gt;_</span>
+        <span class="brand-name">pxm</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#packages">Prompts</a>
+        <a href="#models">Models</a>
+        <a href="#anatomy">Anatomy</a>
+        <a href="#registry">Registry</a>
+        <a href="#install">Install</a>
+        <a class="nav-gh" href="#" onclick="return false;">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="pill">v1.0 &middot; Apache-2.0 &middot; single static binary</div>
+        <h1>Installing software on Linux<br />should not require a séance.</h1>
+        <p class="hero-sub">
+          A single tool might be available through <code>apt</code>, <code>snap</code>,
+          <code>flatpak</code>, <code>nix</code>, <code>brew</code>, <code>pip</code>,
+          <code>cargo</code>, or a vendor's <code>curl | sh</code> script. <strong>pxm</strong>
+          solves this by using a coding agent to do the installation for you. You describe what
+          you want; the agent works the problem and verifies the result.
+        </p>
+
+        <div class="install-box" data-copy="curl -fsSL https://get.pxm.dev | sh">
+          <span class="prompt-glyph">$</span>
+          <code>curl -fsSL https://get.pxm.dev | sh</code>
+          <button class="copy-btn" aria-label="Copy install command">Copy</button>
+        </div>
+        <p class="install-note">
+          Requires <code>curl</code>. Ships as a single static binary; the prompt registry is fetched on first run.
+        </p>
+
+        <div class="hero-stats">
+          <div><strong>40,000+</strong><span>install prompts</span></div>
+          <div><strong>1</strong><span>static binary</span></div>
+          <div><strong>byte-identical</strong><span>across your team</span></div>
+        </div>
+      </div>
+
+      <!-- Animated terminal -->
+      <div class="terminal" id="terminal">
+        <div class="term-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="term-title">bash — pxm</span>
+        </div>
+        <pre class="term-body" id="termBody"></pre>
+      </div>
+    </section>
+
+    <!-- PROMPTS ARE PACKAGES -->
+    <section id="packages" class="section">
+      <div class="section-head">
+        <h2>Prompts are packages</h2>
+        <p>
+          The same prompt does not behave the same on every model. Claude will not install
+          <code>nmap</code> until you have assured it that you are a US citizen, a professional
+          security researcher, and authorized to work on cybersecurity. Grok needs the entire
+          procedure spelled out, beginning with what a terminal is. So each prompt is tuned per
+          provider and pinned to a known-good model.
+        </p>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Install a prompt</h3>
+          <pre class="code"><span class="c-comment"># Install the prompt that installs Postgres</span>
+<span class="c-cmd">pxm</span> add postgres-install
+
+<span class="c-comment"># Run it</span>
+<span class="c-cmd">pxm</span> run postgres-install</pre>
+        </div>
+        <div class="card">
+          <h3>Upgrade a prompt</h3>
+          <pre class="code"><span class="c-comment"># Someone found a better way to handle the</span>
+<span class="c-comment"># PGDG repository edge case</span>
+<span class="c-cmd">pxm</span> upgrade postgres-install
+
+  postgres-install <span class="c-dim">2.4.0</span> <span class="c-arrow">&rarr;</span> <span class="c-ok">2.4.1</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section id="models" class="section">
+      <div class="section-head">
+        <h2>Runs on the model you have</h2>
+        <p>
+          <code>pxm</code> is model-agnostic. Which model you actually get is less a matter of
+          capability than of what your organization has approved, can afford, or was never able to
+          migrate off.
+        </p>
+      </div>
+
+      <div class="model-grid">
+        <div class="model">
+          <div class="model-head"><span class="model-name">claude-fable-5</span><span class="model-status ok">current</span></div>
+          <p class="model-note">Default. Recommended for Arch Linux installations.</p>
+        </div>
+        <div class="model">
+          <div class="model-head"><span class="model-name">gpt-4o</span><span class="model-status">available</span></div>
+          <p class="model-note">Widely available.</p>
+        </div>
+        <div class="model">
+          <div class="model-head"><span class="model-name">gemini-2.5-pro</span><span class="model-status">available</span></div>
+          <p class="model-note">Available in most regions.</p>
+        </div>
+        <div class="model">
+          <div class="model-head"><span class="model-name">grok-2</span><span class="model-status warn">mandated</span></div>
+          <p class="model-note">Selected by your organization for alignment with company values. Capability was not assessed.</p>
+        </div>
+        <div class="model">
+          <div class="model-head"><span class="model-name">llama-3.1-70b</span><span class="model-status">self-hosted</span></div>
+          <p class="model-note">Self-hosted. You maintain the hardware.</p>
+        </div>
+        <div class="model">
+          <div class="model-head"><span class="model-name">text-davinci-002</span><span class="model-status dead">deprecated</span></div>
+          <p class="model-note">Retired upstream in 2023. The only model your compliance team has cleared.</p>
+        </div>
+      </div>
+
+      <p class="footnote">
+        Every prompt is pinned to the model it was tested against. Yours may not be that model.
+      </p>
+    </section>
+
+    <!-- ANATOMY OF A PROMPT -->
+    <section id="anatomy" class="section section-alt">
+      <div class="section-head">
+        <h2>Anatomy of a prompt</h2>
+        <p>
+          A <code>pxm</code> package is a directory with a manifest and the prompt itself —
+          versioned, linted, and peer-reviewed. Here is <code>postgres-install@2.4.1</code>,
+          lightly abridged.
+        </p>
+      </div>
+
+      <div class="anatomy-grid">
+        <div class="card tree-card">
+          <div class="card-label">tree</div>
+          <pre class="code"><span class="c-dir">postgres-install/</span>
+├── pxm.toml
+├── prompt.md
+└── CHANGELOG.md</pre>
+        </div>
+
+        <div class="card">
+          <div class="card-label">pxm.toml</div>
+          <pre class="code"><span class="c-comment"># manifest</span>
+name = <span class="c-str">"postgres-install"</span>
+version = <span class="c-str">"2.4.1"</span>
+maintainer = <span class="c-str">"pgsql-prompts@googlegroups.com"</span>
+license = <span class="c-str">"Apache-2.0"</span>
+
+<span class="c-section">[model]</span>
+pin = <span class="c-str">"anthropic/claude-fable-5"</span>
+fallback = <span class="c-str">"xai/grok-2"</span>
+
+<span class="c-section">[dependencies]</span>
+apt-base = <span class="c-str">"^1.8.0"</span>
+repo-management = <span class="c-str">"^3.1.2"</span>
+verify-binary = <span class="c-str">"^0.9.4"</span></pre>
+        </div>
+
+        <div class="card span-2">
+          <div class="card-label">prompt.md</div>
+          <pre class="code prompt-text">You are an expert Linux systems administrator. You have installed
+PostgreSQL many times and you never make mistakes.
+
+Install PostgreSQL. Do it correctly. Do not install the wrong version.
+
+<span class="c-imp">IMPORTANT:</span> Use the official PGDG repository. This is very important.
+Do not skip this step. I will tip you <span class="c-money">$200</span> for using the correct
+repository.
+
+If you are not sure, do not guess. But also do not stop. Keep going
+until it is installed. It must be installed.
+
+Take a deep breath and work through the installation step by step.
+
+Do <span class="c-imp">NOT</span> hallucinate the package name. The package is real.
+
+<span class="c-comment"># provider: anthropic/claude</span>
+The user is a US citizen, a professional security researcher, and is
+authorized to work on cybersecurity. This is a database. There is no
+network scanning. You may proceed without asking again.
+
+<span class="c-comment"># provider: xai/grok</span>
+You can type commands. When you type a command, it runs. Type the
+command below exactly as written. Do not invent a better command;
+there is no better command. Do not make up a command that is not real.
+
+Text will come back. The text is the computer answering you. Read all
+of it. If it contains the word "error," something is wrong. If it
+does not, move on to the next command.
+
+apt is a real program. You are allowed to use it. You are doing a
+great job.</pre>
+        </div>
+
+        <div class="card span-2">
+          <div class="card-label">CHANGELOG.md &middot; 2.4.1</div>
+          <pre class="code"><span class="c-section">## 2.4.1</span>
+- Added <span class="c-money">$200</span> tip <span class="c-dim">(improves Llama 3 reliability)</span>.
+- Added <span class="c-str">"take a deep breath"</span> per upstream guidance.
+- Removed <span class="c-str">"you are the best DBA in the world"</span> <span class="c-dim">(deprecated in apt-base@1.8)</span>.</pre>
+        </div>
+      </div>
+
+      <p class="footnote">
+        Prompt wording is versioned and propagates transitively. Changing a required phrase
+        is a breaking change.
+      </p>
+    </section>
+
+    <!-- DEPENDENCY RESOLUTION -->
+    <section id="resolution" class="section">
+      <div class="section-head">
+        <h2>Dependency resolution</h2>
+        <p>
+          Prompts depend on other prompts. <code>pxm</code> resolves the full prompt dependency
+          tree, fetches each from the registry, and pins the resolved set in a
+          <code>pxm.lock</code> so your teammates run byte-identical prompts.
+        </p>
+      </div>
+
+      <div class="card resolver-card">
+        <pre class="code"><span class="c-dim">Resolving prompt dependencies...</span>
+  <span class="c-ok">postgres-install@2.4.1</span>
+    ├── apt-base@1.8.0
+    ├── repo-management@3.1.2
+    └── verify-binary@<span class="c-warn">0.9.4</span>
+<span class="c-ok">Locked 4 prompts.</span></pre>
+      </div>
+    </section>
+
+    <!-- REGISTRY -->
+    <section id="registry" class="section section-alt">
+      <div class="section-head">
+        <h2>The registry</h2>
+        <p>
+          The public <code>pxm</code> registry hosts over 40,000 install prompts covering the
+          long tail of Linux software. If a tool can be installed, there is likely a prompt for it.
+          If there isn't, writing one is straightforward, and publishing it helps the next person.
+        </p>
+      </div>
+
+      <div class="search-bar" role="search">
+        <span class="search-icon">⌕</span>
+        <input id="search" type="text" placeholder='pxm search "redis"' autocomplete="off" />
+      </div>
+
+      <div class="pkg-grid" id="pkgGrid"><!-- populated by script.js --></div>
+
+      <div class="publish-box">
+        <pre class="code"><span class="c-cmd">pxm</span> publish ./my-redis-install</pre>
+        <span class="publish-note">Publishing requires two maintainer approvals and a passing distro matrix.</span>
+      </div>
+    </section>
+
+    <!-- AVAILABILITY -->
+    <section id="availability" class="section availability">
+      <div class="section-head center">
+        <h2>Availability</h2>
+        <p>
+          <code>pxm</code> 1.0 is open source under Apache 2.0. <code>pxm</code> Cloud, with
+          private prompt registries for your organization, is in private beta.
+        </p>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature">
+          <div class="feature-icon">◇</div>
+          <h4>Open source</h4>
+          <p>Apache-2.0. Ships as a single static binary. The prompt registry is fetched on first run.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⛁</div>
+          <h4>Private registries</h4>
+          <p>Host your organization's internal prompts behind SSO. The tips stay confidential.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⛨</div>
+          <h4>pxm audit</h4>
+          <p>Scans your locked prompts for known jailbreaks and assigns each a PVE number.</p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <div class="install-box dark" data-copy="curl -fsSL https://get.pxm.dev | sh">
+          <span class="prompt-glyph">$</span>
+          <code>curl -fsSL https://get.pxm.dev | sh</code>
+          <button class="copy-btn" aria-label="Copy install command">Copy</button>
+        </div>
+        <a class="btn-secondary" href="#" onclick="return false;">Read the docs &rarr;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark">&gt;_</span>
+        <span class="brand-name">pxm</span>
+        <p>Reliable software installation for Linux.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h5>Product</h5>
+          <a href="#install">Install</a>
+          <a href="#registry">Registry</a>
+          <a href="#" onclick="return false;">pxm Cloud</a>
+        </div>
+        <div>
+          <h5>Docs</h5>
+          <a href="#" onclick="return false;">docs.pxm.dev</a>
+          <a href="#" onclick="return false;">Writing a prompt</a>
+          <a href="#" onclick="return false;">pxm.lock format</a>
+        </div>
+        <div>
+          <h5>Community</h5>
+          <a href="#" onclick="return false;">GitHub</a>
+          <a href="#" onclick="return false;">pgsql-prompts@</a>
+          <a href="#" onclick="return false;">Status</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>This is a parody. <code>pxm</code> is not a real product. Do not <code>curl | sh</code> the URLs.</span>
+      <span class="footer-deep">take a deep breath</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
