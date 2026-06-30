@@ -1,39 +1,53 @@
-# pxm — parody landing page
+# pxm
 
-A satirical dev-tool launch site. `pxm` "treats each install prompt as a first-class package."
-It is not a real product. Do not `curl | sh` any of the URLs.
+**Reliable software installation for Linux.**
 
-## Files
+Installing software on Linux can mean `apt`, `snap`, `flatpak`, `nix`, `brew`,
+`pip`, `cargo`, or a vendor's `curl | sh` script — each with different
+versioning, isolation, and failure modes. pxm uses a coding agent to do the
+installation for you. You describe what you want; the agent works the problem
+and verifies the result.
 
-| File | What it is |
-|------|------------|
-| `index.html` | The whole page (hero, anatomy, registry, etc.) |
-| `styles.css` | Styling (dark dev-tool aesthetic) |
-| `script.js`  | Animated terminal, copy buttons, registry search |
-| `.nojekyll`  | Tells GitHub Pages to serve files as-is (no Jekyll) |
+## Install
 
-No build step. No dependencies. Open `index.html` in a browser to preview.
+```bash
+curl -fsSL https://get.pxm.dev | sh
+```
 
-## Deploy to GitHub Pages
+pxm ships as a single static binary. The prompt registry is fetched on first run.
 
-1. Create a repo (e.g. `pxm-site`) and push these files to the `main` branch:
+## Quick start
 
-   ```bash
-   cd C:/Users/kahlan/Desktop/pxm
-   git init
-   git add .
-   git commit -m "pxm parody site"
-   git branch -M main
-   git remote add origin https://github.com/<you>/pxm-site.git
-   git push -u origin main
-   ```
+```bash
+# Install the prompt that installs Postgres
+pxm add postgres-install
 
-2. On GitHub: **Settings → Pages → Build and deployment**.
-   Set **Source** to *Deploy from a branch*, **Branch** to `main` / `/ (root)`, then **Save**.
+# Run it
+pxm run postgres-install
+```
 
-3. Wait ~1 minute. Your site is live at `https://<you>.github.io/pxm-site/`.
+Each install prompt is a first-class package — versioned, maintained, and
+pinned in a `pxm.lock` so your team runs byte-identical prompts. Prompts are
+tuned per provider and pinned to a known-good model.
 
-### Custom domain (optional)
+## Commands
 
-To serve it at `pxm.dev` (if you owned it), add a `CNAME` file containing the domain
-and configure DNS per GitHub's docs. The parody assumes `get.pxm.dev` / `docs.pxm.dev`.
+| Command | Description |
+|---------|-------------|
+| `pxm add <prompt>`     | Install a prompt from the registry |
+| `pxm run <prompt>`     | Run an installed prompt |
+| `pxm upgrade <prompt>` | Update to the latest known-good revision |
+| `pxm search <query>`   | Search the registry |
+| `pxm publish <dir>`    | Publish a prompt to the registry |
+
+## Registry
+
+The public registry hosts over 40,000 install prompts covering the long tail of
+Linux software. If a tool can be installed, there is likely a prompt for it.
+
+Documentation: `docs.pxm.dev`
+
+## License
+
+`pxm` is open source under Apache 2.0. `pxm` Cloud, with private prompt
+registries for your organization, is in private beta.
