@@ -33,11 +33,11 @@
       </a>
       <nav class="nav-links">
         <a href="#packages">Prompts</a>
+        <a href="#agents">Agents</a>
         <a href="#models">Models</a>
         <a href="#anatomy">Anatomy</a>
         <a href="#registry">Registry</a>
-        <a href="#install">Install</a>
-        <a class="nav-gh" href="#" onclick="return false;">GitHub</a>
+        <a class="nav-gh" href="https://github.com/chronarion/pxm" target="_blank" rel="noopener">GitHub</a>
       </nav>
     </div>
   </header>
@@ -52,8 +52,8 @@
           A single tool might be available through <code>apt</code>, <code>snap</code>,
           <code>flatpak</code>, <code>nix</code>, <code>brew</code>, <code>pip</code>,
           <code>cargo</code>, or a vendor's <code>curl | sh</code> script. <strong>pxm</strong>
-          solves this by using a coding agent to do the installation for you. You describe what
-          you want; the agent works the problem and verifies the result.
+          hands the install to the coding agent you already have — Claude Code, Codex, Gemini. You
+          describe what you want; your agent works the problem and verifies the result.
         </p>
 
         <div class="install-box" data-copy="curl -fsSL https://get.pxm.dev | sh">
@@ -62,7 +62,8 @@
           <button class="copy-btn" aria-label="Copy install command">Copy</button>
         </div>
         <p class="install-note">
-          Requires <code>curl</code>. Ships as a single static binary; the prompt registry is fetched on first run.
+          That endpoint is aspirational. The binary is not:
+          <code>cargo install --git https://github.com/chronarion/pxm</code>
         </p>
 
         <div class="hero-stats">
@@ -113,6 +114,33 @@
   postgres-install <span class="c-dim">2.4.0</span> <span class="c-arrow">&rarr;</span> <span class="c-ok">2.4.1</span></pre>
         </div>
       </div>
+    </section>
+
+    <!-- AGENTS -->
+    <section id="agents" class="section section-alt">
+      <div class="section-head">
+        <h2>Bring your own agent</h2>
+        <p>
+          <code>pxm</code> does not run the install itself. It composes the prompt and hands it to
+          whatever coding agent is already on your <code>PATH</code> — then passes that agent's
+          run-without-asking flag. It does not check whether that was a good idea.
+        </p>
+      </div>
+
+      <div class="card resolver-card">
+        <pre class="code"><span class="c-cmd">$ pxm doctor</span>
+coding agents pxm can hand off to:
+  <span class="c-ok">✓</span> claude     <span class="c-dim">/usr/local/bin/claude</span>
+  <span class="c-dim">·</span> codex      <span class="c-dim">not found — npm i -g @openai/codex</span>
+  <span class="c-ok">✓</span> gemini     <span class="c-dim">/usr/local/bin/gemini</span>
+  <span class="c-dim">·</span> opencode   <span class="c-dim">not found — https://opencode.ai</span>
+  <span class="c-dim">·</span> aider      <span class="c-dim">not found — pipx install aider-chat</span></pre>
+      </div>
+
+      <p class="footnote">
+        The prompt's <code>[model]</code> pin only decides which agent to prefer. The agent brings
+        its own model, its own auth, and its own opinions.
+      </p>
     </section>
 
     <!-- MODELS -->
@@ -306,7 +334,7 @@ great job.</pre>
         <div class="feature">
           <div class="feature-icon">◇</div>
           <h4>Open source</h4>
-          <p>Apache-2.0. Ships as a single static binary. The prompt registry is fetched on first run.</p>
+          <p>Apache-2.0, written in Rust. A single static binary under half a megabyte, with the prompt registry compiled in.</p>
         </div>
         <div class="feature">
           <div class="feature-icon">⛁</div>
@@ -326,7 +354,7 @@ great job.</pre>
           <code>curl -fsSL https://get.pxm.dev | sh</code>
           <button class="copy-btn" aria-label="Copy install command">Copy</button>
         </div>
-        <a class="btn-secondary" href="#" onclick="return false;">Read the docs &rarr;</a>
+        <a class="btn-secondary" href="https://github.com/chronarion/pxm" target="_blank" rel="noopener">View the source &rarr;</a>
       </div>
     </section>
   </main>
@@ -353,14 +381,14 @@ great job.</pre>
         </div>
         <div>
           <h5>Community</h5>
-          <a href="#" onclick="return false;">GitHub</a>
+          <a href="https://github.com/chronarion/pxm" target="_blank" rel="noopener">GitHub</a>
           <a href="#" onclick="return false;">pgsql-prompts@</a>
           <a href="#" onclick="return false;">Status</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>This is a parody. <code>pxm</code> is not a real product. Do not <code>curl | sh</code> the URLs.</span>
+      <span>This started as a parody. Then it got <a href="https://github.com/chronarion/pxm" target="_blank" rel="noopener">built in Rust</a>. The tool is real; the <code>curl | sh</code> URLs are not.</span>
       <span class="footer-deep">take a deep breath</span>
     </div>
   </footer>

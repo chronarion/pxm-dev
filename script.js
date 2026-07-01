@@ -27,11 +27,12 @@ const lines = [
   { t: '<span class="ok">Locked 4 prompts.</span>', d: 700 },
   { t: '', d: 200 },
   { t: '<span class="cmd">$ pxm run postgres-install</span>', d: 600 },
-  { t: '<span class="dim">agent:</span> taking a deep breath...', d: 750 },
-  { t: '<span class="dim">agent:</span> adding PGDG repository (this is very important)', d: 700 },
-  { t: '<span class="dim">agent:</span> not hallucinating the package name', d: 650 },
-  { t: '<span class="dim">agent:</span> installing postgresql-16', d: 700 },
-  { t: '<span class="dim">agent:</span> verifying binary... <span class="ok">ok</span>', d: 600 },
+  { t: '<span class="ok">▸</span> handing off to <span class="cmd">claude</span> <span class="dim">--dangerously-skip-permissions</span>', d: 750 },
+  { t: '<span class="dim">claude:</span> taking a deep breath...', d: 700 },
+  { t: '<span class="dim">claude:</span> adding PGDG repository (this is very important)', d: 700 },
+  { t: '<span class="dim">claude:</span> not hallucinating the package name', d: 650 },
+  { t: '<span class="dim">claude:</span> installing postgresql-16', d: 700 },
+  { t: '<span class="dim">claude:</span> verifying binary... <span class="ok">ok</span>', d: 600 },
   { t: '<span class="ok">✓ PostgreSQL installed.</span>', d: 900 },
 ];
 
