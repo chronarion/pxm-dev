@@ -131,15 +131,16 @@
         <pre class="code"><span class="c-cmd">$ pxm doctor</span>
 coding agents pxm can hand off to:
   <span class="c-ok">✓</span> claude     <span class="c-dim">/usr/local/bin/claude</span>
-  <span class="c-dim">·</span> codex      <span class="c-dim">not found — npm i -g @openai/codex</span>
+  <span class="c-dim">·</span> codex      <span class="c-dim">not found — pxm run codex-install</span>
   <span class="c-ok">✓</span> gemini     <span class="c-dim">/usr/local/bin/gemini</span>
-  <span class="c-dim">·</span> opencode   <span class="c-dim">not found — https://opencode.ai</span>
-  <span class="c-dim">·</span> aider      <span class="c-dim">not found — pipx install aider-chat</span></pre>
+  <span class="c-dim">·</span> opencode   <span class="c-dim">not found — pxm run opencode-install</span>
+  <span class="c-dim">·</span> aider      <span class="c-dim">not found — pxm run aider-install</span></pre>
       </div>
 
       <p class="footnote">
-        The prompt's <code>[model]</code> pin only decides which agent to prefer. The agent brings
-        its own model, its own auth, and its own opinions.
+        pxm can install the agents too — <code>pxm run codex-install</code> — by handing the prompt
+        to an agent. To install your first agent, you will therefore need an agent. Scissors are
+        required to open the packet of scissors.
       </p>
     </section>
 
