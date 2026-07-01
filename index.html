@@ -52,8 +52,9 @@
           A single tool might be available through <code>apt</code>, <code>snap</code>,
           <code>flatpak</code>, <code>nix</code>, <code>brew</code>, <code>pip</code>,
           <code>cargo</code>, or a vendor's <code>curl | sh</code> script. <strong>pxm</strong>
-          hands the install to the coding agent you already have — Claude Code, Codex, Gemini. You
-          describe what you want; your agent works the problem and verifies the result.
+          is a repository of prompts for coding agents that you already have that tell the coding
+          agent to install the package for you. You install and run the pxm prompt package, pxm
+          tells the agent to figure out the rest.
         </p>
 
         <div class="install-box" data-copy="curl -fsSL https://raw.githubusercontent.com/chronarion/pxm/main/install.sh | sh">
